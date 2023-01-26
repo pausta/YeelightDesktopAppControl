@@ -11,14 +11,12 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import (
     QApplication,
-    QComboBox,
-    QFormLayout,
-    QLineEdit,
     QStackedLayout,
     QVBoxLayout,
     QWidget,
-    QPushButton,
-    QHBoxLayout
+    QTabWidget,
+
+    
 )
 from yeelight import discover_bulbs
 from yeelight import Bulb
@@ -37,14 +35,27 @@ class Ui_MainWindow(object):
             time.sleep(1)
     bulb = Bulb(bulb_ip)
 
-    def setupUi(self, MainWindow):
+    def setupUiApp(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 420)
         MainWindow.setStyleSheet('background-color: rgb(211, 211, 211);')
-     
+
+        
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+       
+        #tab
+      
+        tab_widget = QTabWidget()
+
+        tab1 = QWidget()
+        tab2 = QWidget()
+        tab_widget.addTab(tab1, "Main window")
+        tab_widget.addTab(tab2, "Change default settings")
+        
+        #End tab 
+    
         
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 20, 761, 401))
@@ -52,6 +63,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
+        tab1.setLayout(self.verticalLayout)
 
         self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
@@ -174,7 +186,7 @@ class Ui_MainWindow(object):
         
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
-        MainWindow.setCentralWidget(self.centralwidget)
+        MainWindow.setCentralWidget(tab_widget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
@@ -212,18 +224,20 @@ class Ui_MainWindow(object):
         MainWindow.setWindowIcon(QtGui.QIcon('img/icon.png'))
         self.pushButton.setText(_translate("MainWindow", "Turn ON"))
         self.pushButton_2.setText(_translate("MainWindow", "Turn Off"))
-        self.pushButton_3.setText(_translate("MainWindow","Default settings"))
+        self.pushButton_3.setText(_translate("MainWindow","Set default settings"))
         self.label.setText(_translate("MainWindow", "Brightness:"))
         self.label_2.setText(_translate("MainWindow", "Color"))
         self.label_3.setText(_translate("MainWindow", "R"))
         self.label_4.setText(_translate("MainWindow", "G"))
         self.label_5.setText(_translate("MainWindow", "B"))
 
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui.setupUiApp(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
